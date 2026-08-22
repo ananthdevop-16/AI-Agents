@@ -14,7 +14,7 @@ from langchain_groq import ChatGroq
 from reviews_api import get_product_rating
 
 load_dotenv()
-print("KEY:", os.getenv("GROQ_API_KEY"))
+#print("KEY:", os.getenv("GROQ_API_KEY"))
 DB_PATH = os.path.join(os.path.dirname(__file__), "store.db")
 
 #llm = ChatGroq(model="qwen/qwen3-32b", temperature=0)
@@ -24,7 +24,8 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "store.db")
 #vision_llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0)
 vision_llm=ChatGoogleGenerativeAI(
     model="gemma-4-31b-it",
-    temperature=0
+    temperature=0,
+    google_api_key=os.getenv("GOOGLE_API_KEY")
 )
 
 # ---------------------------------------------------------------------------
@@ -169,7 +170,8 @@ def describe_product_image(image_path: str) -> str:
 tools=[search_products, get_rating, checkout, describe_product_image]
 llm = ChatGoogleGenerativeAI(
     model="gemma-4-31b-it",
-    temperature=0
+    temperature=0,
+    google_api_key=os.getenv("GOOGLE_API_KEY")
 ).bind_tools(tools)
 
 
